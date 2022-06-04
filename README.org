@@ -1,0 +1,17 @@
+* link-hint-preview.el
+
+Preview link contents in a pop-up frame with link-hint.
+
+Set frame parameters in the alist =link-hint-preview-frame-parameters=.
+
+Set additional configurations by adding to =link-hint-preview-mode-hook=.
+For example, to remove mode-line and tab-bar from the pop-up frame, evaluate:
+
+#+begin_src emacs-lisp
+(add-hook 'link-hint-preview-mode-hook 'link-hint-preview-toggle-frame-mode-line)
+(add-hook 'link-hint-preview-mode-hook 'toggle-frame-tab-bar)
+#+end_src
+
+Pop-up frame opens in =read-only-mode=, which see for mode-specific keybindings.
+
+Pressing 'q' closes the pop-up frame and returns point to previous window.
