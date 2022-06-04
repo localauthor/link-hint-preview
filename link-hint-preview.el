@@ -117,32 +117,6 @@ Intended to be added to 'link-hint-preview-mode-hook'."
   (cons `(,param . ,value) link-hint-preview-frame-parameters))
 
 
-;;; zk-link support
-
-(link-hint-define-type 'zk-link
-:preview #'link-hint-preview-zk-link)
-
-(defun link-hint-preview-zk-link (&optional id)
-  "Pop up a frame containing zk-file for ID at point.
-Set pop-up frame parameters in 'link-hint-preview-frame-parameters'."
-  (interactive)
-  (let* ((id (zk--id-at-point))
-         (file (zk--parse-id 'file-path id))
-         (buffer (get-file-buffer file))
-         (frame (selected-frame)))
-    (if (get-file-buffer file)
-        (setq link-hint-preview--kill-last nil)
-      (setq buffer (find-file-noselect file))
-      (setq link-hint-preview--kill-last t))
-    (display-buffer-pop-up-frame
-     buffer
-     `((pop-up-frame-parameters . ,(link-hint-preview--params 'delete-before frame))
-       (dedicated . t)))
-    (with-current-buffer buffer
-      (setq-local link-hint-preview--last-frame frame)
-      (link-hint-preview-mode))))
-
-
 ;;; file-link support
 
 (link-hint-define-type 'file-link
