@@ -168,6 +168,29 @@ Set popup frame parameters in 'link-hint-preview-frame-parameters'."
       (link-hint-preview-mode))))
 
 
+;;; button support
+
+(link-hint-define-type 'button
+  :preview #'link-hint--preview-button)
+
+(defun link-hint--preview-button (_link)
+  (with-demoted-errors "%s"
+    (let ((buffer (current-buffer))
+          (frame (selected-frame))
+          (new-buffer))
+      (push-button)
+      (setq new-buffer
+            (current-buffer))
+      (switch-to-buffer buffer)
+      (display-buffer-pop-up-frame
+       new-buffer
+       `((pop-up-frame-parameters . ,(link-hint-preview--params 'delete-before frame))
+         (dedicated . t)))
+      (with-current-buffer new-buffer
+        (setq-local link-hint-preview--last-frame frame)
+        (link-hint-preview-mode)))))
+
+
 (provide 'link-hint-preview)
 
 ;;; link-hint-preview.el ends here
