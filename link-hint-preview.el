@@ -69,7 +69,7 @@
   :type 'list)
 
 (defvar link-hint-preview--kill-last nil)
-(defvar-local link-hint-preview--last-frame nil)
+(defvar-local link-hint-preview--origin-frame nil)
 
 
 ;;; Minor Mode
@@ -83,7 +83,7 @@
 (defun link-hint-preview-close-frame ()
   "Close frame opened with 'link-hint-preview'."
   (interactive)
-  (let ((frame link-hint-preview--last-frame))
+  (let ((frame link-hint-preview--origin-frame))
     (link-hint-preview-mode -1)
     (read-only-mode -1)
     (if link-hint-preview--kill-last
@@ -128,7 +128,7 @@ Set popup frame parameters in 'link-hint-preview-frame-parameters'."
   (interactive)
   (let* ((buffer (get-file-buffer link))
          (frame (selected-frame)))
-    (setq link-hint-preview--last-frame (selected-frame))
+    (setq link-hint-preview--origin-frame (selected-frame))
     (if (get-file-buffer link)
         (setq link-hint-preview--kill-last nil)
       (setq buffer (find-file-noselect link))
@@ -138,7 +138,7 @@ Set popup frame parameters in 'link-hint-preview-frame-parameters'."
      `((pop-up-frame-parameters . ,(link-hint-preview--params 'delete-before frame))
        (dedicated . t)))
     (with-current-buffer buffer
-      (setq-local link-hint-preview--last-frame frame)
+      (setq-local link-hint-preview--origin-frame frame)
       (link-hint-preview-mode))))
 
 
@@ -154,7 +154,7 @@ Set popup frame parameters in 'link-hint-preview-frame-parameters'."
   (let* ((file (org-element-property :path (org-element-context)))
          (buffer (get-file-buffer file))
          (frame (selected-frame)))
-    (setq link-hint-preview--last-frame (selected-frame))
+    (setq link-hint-preview--origin-frame (selected-frame))
     (if (get-file-buffer file)
         (setq link-hint-preview--kill-last nil)
       (setq buffer (find-file-noselect file))
@@ -164,7 +164,7 @@ Set popup frame parameters in 'link-hint-preview-frame-parameters'."
      `((pop-up-frame-parameters . ,(link-hint-preview--params 'delete-before frame))
        (dedicated . t)))
     (with-current-buffer buffer
-      (setq-local link-hint-preview--last-frame frame)
+      (setq-local link-hint-preview--origin-frame frame)
       (link-hint-preview-mode))))
 
 
@@ -187,7 +187,7 @@ Set popup frame parameters in 'link-hint-preview-frame-parameters'."
        `((pop-up-frame-parameters . ,(link-hint-preview--params 'delete-before frame))
          (dedicated . t)))
       (with-current-buffer new-buffer
-        (setq-local link-hint-preview--last-frame frame)
+        (setq-local link-hint-preview--origin-frame frame)
         (link-hint-preview-mode)))))
 
 
