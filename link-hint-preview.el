@@ -75,7 +75,7 @@
 ;;; Minor Mode
 
 (define-minor-mode link-hint-preview-mode
-  "Minor mode to simulate buffer local keybindings."
+  "Minor mode for link-hint-preview buffers."
   :init-value nil
   :keymap '(((kbd "q") . link-hint-preview-close-frame))
   (read-only-mode))
