@@ -53,7 +53,7 @@
   :prefix "link-hint-preview-")
 
 (defcustom link-hint-preview-frame-parameters
-  '((width . 80)
+  '((width . 90)
     (height . 30)
     (undecorated . t)
     (left-fringe . 0)
@@ -77,8 +77,19 @@
 (define-minor-mode link-hint-preview-mode
   "Minor mode for link-hint-preview buffers."
   :init-value nil
-  :keymap '(((kbd "q") . link-hint-preview-close-frame))
-  (read-only-mode))
+  :keymap '(((kbd "q") . link-hint-preview-close-frame)
+            ([return] . link-hint-preview-open))
+  (if link-hint-preview-mode
+      (progn
+        (read-only-mode)
+        (scroll-lock-mode 1)
+        (make-local-variable 'show-paren-mode)
+        (setq-local show-paren-mode nil)
+        (setq cursor-type nil))
+    (read-only-mode -1)
+    (scroll-lock-mode -1)
+    (setq-local show-paren-mode t)
+    (setq cursor-type t)))
 
 (defun link-hint-preview-close-frame ()
   "Close frame opened with 'link-hint-preview'."
@@ -90,6 +101,16 @@
         (kill-buffer)
       (delete-frame))
     (select-frame-set-input-focus frame)))
+
+(defun link-hint-preview-open ()
+  "Open previewed buffer normally in original frame."
+  (interactive)
+  (let ((frame link-hint-preview--origin-frame)
+        (file (buffer-file-name))
+        (pos (point)))
+    (link-hint-preview-close-frame)
+    (find-file file)
+    (goto-char pos)))
 
 
 ;;; General Command
@@ -189,7 +210,6 @@ Set popup frame parameters in 'link-hint-preview-frame-parameters'."
       (with-current-buffer new-buffer
         (setq-local link-hint-preview--origin-frame frame)
         (link-hint-preview-mode)))))
-
 
 (provide 'link-hint-preview)
 
