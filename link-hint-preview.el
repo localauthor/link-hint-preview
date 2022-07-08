@@ -171,9 +171,9 @@ Set popup frame parameters in 'link-hint-preview-frame-parameters'."
 ;;; button support
 
 (link-hint-define-type 'button
-  :preview #'link-hint--preview-button)
+  :preview #'link-hint-preview-button)
 
-(defun link-hint--preview-button (_link)
+(defun link-hint-preview-button (_link)
   (with-demoted-errors "%s"
     (let ((buffer (current-buffer))
           (frame (selected-frame))
