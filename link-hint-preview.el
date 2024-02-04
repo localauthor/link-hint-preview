@@ -64,7 +64,8 @@
     (inhibit-double-buffering . t)
     (tool-bar-lines . 0)
     (vertical-scroll-bars . nil)
-    (menu-bar-lines . 0))
+    (menu-bar-lines . 0)
+    (title . "link-hint-preview"))
   "Parameters for pop-up frame called by 'link-hint-preview'."
   :type 'list)
 
