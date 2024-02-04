@@ -84,7 +84,6 @@
       (progn
         (read-only-mode)
         (scroll-lock-mode 1)
-        (make-local-variable 'show-paren-mode)
         (setq-local show-paren-mode nil)
         (setq cursor-type nil))
     (read-only-mode -1)
@@ -142,7 +141,7 @@ Intended to be added to 'link-hint-preview-mode-hook'."
 ;;; file-link support
 
 (link-hint-define-type 'file-link
-:preview #'link-hint-preview-file-link)
+  :preview #'link-hint-preview-file-link)
 
 (defun link-hint-preview-file-link (link)
   "Popup a frame containing file at LINK.
@@ -167,7 +166,7 @@ Set popup frame parameters in 'link-hint-preview-frame-parameters'."
 ;;; org-link support
 
 (link-hint-define-type 'org-link
-:preview #'link-hint-preview-org-link)
+  :preview #'link-hint-preview-org-link)
 
 (defun link-hint-preview-org-link ()
   "Popup a frame containing file of org-link.
