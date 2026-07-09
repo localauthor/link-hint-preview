@@ -43,7 +43,6 @@
 ;;; Code:
 
 (require 'link-hint)
-(require 'zk-link-hint)
 
 ;;; Variables
 
